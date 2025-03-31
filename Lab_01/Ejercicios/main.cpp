@@ -44,6 +44,8 @@ int ejercicio25();
 double ejercicio27();
 /*29.Escriba un programa que adivine un numero A (entre 0 y 100) seleccionado por el usuario (el numero No se ingresa al programa), el programa imprimira en pantalla un numero B y el usuario usara los simbolos '>', '<' y '=' para indicarle al programa si B es mayor,menor o igual que A. El programa imprimira un nuevo numero B, con base en simbolo ingresdo por el usuario, y repetira el proceso hasta acertar el numero seleccionado por el usuario.*/
 int ejercicio29();
+/*Escriba un programa que identifique si un carcter ingresado es una vocal, una consonante o ninguna de las 2 e imprima un mensaje segun el caso.*/
+
 int main()
 {
     ejercicio29();
