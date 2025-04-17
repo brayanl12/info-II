@@ -48,7 +48,7 @@ int ejercicio29();
 
 int main()
 {
-    ejercicio29();
+    ejercicio17();
     return 0;
 }
 

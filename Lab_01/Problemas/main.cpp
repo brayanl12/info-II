@@ -23,7 +23,7 @@ int problema17();
 
 int main()
 {
-    problema3();
+    problema17();
     return 0;
 }
 
@@ -84,8 +84,8 @@ int problema3()
     }
     return 0;
 }
-int problema5()
 
+int problema5()
 {
     int N;
     cout<<"Ingrese numero N entero impar: "<<endl;
@@ -226,6 +226,7 @@ int problema15()
         return 1;
     }
     int matriz[100][100]={0};
+
     int x= N / 2, y= N/ 2;
     int num = 1, paso = 1;
     int dx[]={0, 1, 0, -1};
