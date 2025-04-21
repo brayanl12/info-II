@@ -23,6 +23,18 @@ void fun_b(int a[], int tam){
 
 /*a)La direccion en memoria es (@0xa219ffb10) y cada array como es un int ocupa 4 bytes en memoria*/
 
-/*b)La direccion en memoria y el contenido en memoria del elemento array [3] se encuentra en (@0xa219ffb1c)*/
+/*b)La direccion en memoria y el contenido en memoria del elemento array [3] se encuentra en (@0xa219ffb1c)
+A = 10
+
+B = 11
+
+C = 12
+
+D = 13
+
+E = 14
+
+F = 15
+*/
 
 /*c)El efecto que tiene la fun_b sobre el arreglo array es el de invertir el contenido del arreglo.Lo hace mediante un ciclo que recorre el arreglo desde ambos extremos hacia el centro intercambiando los elementos de posicion opuesta usando la funcion fun_a.*/

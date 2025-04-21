@@ -10,7 +10,7 @@ int main()
         {28, 39},
         {99, 3}};
 }
-/*1. La figura 1, que se presenta a ccontinuacion, ilustra la representacion del arreglo b en memoria. Completa la numeracion de las direcciones de memoria, en notacion hexadecimal, para cada elemento del arreglo b.*/
+/*1. La figura 1, que se presenta a continuacion, ilustra la representacion del arreglo b en memoria. Completa la numeracion de las direcciones de memoria, en notacion hexadecimal, para cada elemento del arreglo b.*/
 /* Figura 1.
  *
  * b[0]=0x0A12
