@@ -20,7 +20,7 @@ int main()
         char c = ori[i];
         if (c >= '0' && c <= '9')
         {
-            num[n++] = c;
+            num[++n] = c;
         }
         else{
             text[t++] = c;
