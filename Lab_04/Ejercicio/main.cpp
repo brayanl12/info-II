@@ -27,14 +27,14 @@ private:
 
 public:
     ~Network() {
-        for (auto& par : routers)
-            delete par.second;
+        for (auto& par : routers) //Recorrer router y auto deduce el tipo automaticamente (pair<string,Router*>)
+            delete par.second; //Elimina el router apuntado por el puntero
     }
 
-    void agregarRouter(const string& nombre) {
-        if (!routers.count(nombre)) {
-            routers[nombre] = new Router(nombre);
-            historial.push_back("Agregado router: " + nombre);
+    void agregarRouter(const string& nombre) { //Recibe nombre del router
+        if (!routers.count(nombre)) { //Devuelve 1 si el router existe y 0 si no existe
+            routers[nombre] = new Router(nombre); //Crea un nuevo Router
+            historial.push_back("Agregado router: " + nombre); //Agrega al final el vector cadena
         }
     }
 
@@ -44,35 +44,35 @@ public:
             return;
         }
 
-        for (auto& [_, router] : routers)
-            router->vecinos.erase(nombre);
+        for (auto& [_, router] : routers) //Recorre todos los routers y se ignora "_"
+            router->vecinos.erase(nombre); //Para cada router de la red,se elimina al router de su lista de vecinos
 
-        delete routers[nombre];
-        routers.erase(nombre);
-        historial.push_back("Eliminado router: " + nombre);
+        delete routers[nombre]; //Libera memoria dinamica
+        routers.erase(nombre); //Elimina la entrada del mapa de routers
+        historial.push_back("Eliminado router: " + nombre); //Registra la accion en el historial
     }
 
     void conectarRouters(const string& a, const string& b, int costo) {
-        if (routers.count(a) && routers.count(b)) {
-            routers[a]->vecinos[b] = costo;
+        if (routers.count(a) && routers.count(b)) { //Verifica que ambos routers existen en el mapa
+            routers[a]->vecinos[b] = costo; //puntero al objeto accede al mapa de vecinos de este router
             routers[b]->vecinos[a] = costo;
             historial.push_back("Conectado " + a + " <--> " + b + " con costo " + to_string(costo));
         }
     }
 
     void cargarTopologia(const string& archivo) {
-        ifstream file(archivo);
-        if (!file.is_open()) {
+        ifstream file(archivo); //Lee el archivo con file que fue creado con ifstream
+        if (!file.is_open()) { //Verifica si el archivo se abrió
             cout << "No se pudo abrir el archivo.\n";
             return;
         }
 
         string linea;
-        while (getline(file, linea)) {
-            istringstream ss(linea);
+        while (getline(file, linea)) { //Lee el archivo por linea
+            istringstream ss(linea); //Crea un stream sobre la linea para estraer sus componentes con >>
             string a, b;
             int costo;
-            ss >> a >> b >> costo;
+            ss >> a >> b >> costo; //Extrae componentes con >>
             agregarRouter(a);
             agregarRouter(b);
             conectarRouters(a, b, costo);
@@ -82,15 +82,15 @@ public:
     }
 
     void generarRedAleatoria(int cantidad) {
-        limpiarRed();
-        srand(time(0));
+        limpiarRed(); //Borra todos los routers existentes
+        srand(time(0)); //Inializar el generador de numeros aleatorios con una semilla en la basada en la hora actual
 
-        for (int i = 0; i < cantidad; ++i)
+        for (int i = 0; i < cantidad; ++i) //Crea routers segun la cantidad
             agregarRouter("R" + to_string(i));
 
-        for (int i = 0; i < cantidad; ++i) {
+        for (int i = 0; i < cantidad; ++i) { // recorre todas las combinaciones posibles entre routers sin repetir ni conectar un router consigo mismo
             for (int j = i + 1; j < cantidad; ++j) {
-                if (rand() % 2) {
+                if (rand() % 2) { //Genera un numero aleatorio del 0 al 1 si da 1 conecta Ri con Rj
                     int costo = rand() % 10 + 1;
                     conectarRouters("R" + to_string(i), "R" + to_string(j), costo);
                 }
@@ -101,9 +101,9 @@ public:
     }
 
     void mostrarEstadoRed() {
-        for (auto& [nombre, router] : routers) {
+        for (auto& [nombre, router] : routers) { //Recorre todos los  conectados
             cout << nombre << " --> ";
-            for (auto& [vecino, costo] : router->vecinos)
+            for (auto& [vecino, costo] : router->vecinos) //Recorre todos los vecinos (Conectados)
                 cout << "(" << vecino << ", " << costo << ") ";
             cout << "\n";
         }
@@ -111,27 +111,27 @@ public:
 
     void mostrarEstadisticas() {
         int totalEnlaces = 0;
-        for (auto& [_, router] : routers)
-            totalEnlaces += router->vecinos.size();
+        for (auto& [_, router] : routers) //Recorre todos los routers de la red y no nos interesa "_", solo el puntero router
+            totalEnlaces += router->vecinos.size(); //Da el numero de conexion que tiene ese router
 
-        cout << "Total de routers: " << routers.size() << "\n";
+        cout << "Total de routers: " << routers.size() << "\n"; //Obtiene el numero de elementos  que hay detro de una estructura de datos
         cout << "Total de enlaces: " << totalEnlaces / 2 << "\n";
     }
 
     void mostrarHistorial() {
-        for (const string& evento : historial)
+        for (const string& evento : historial) //Referencia constante para evitar copiar cada string y asegurar que no se modifique y recorre todos los elemntos del vector historial
             cout << "- " << evento << "\n";
     }
 
     void encontrarRutaMasCorta(const string& origen, const string& destino) {
-        auto [distancia, camino] = dijkstra(origen, destino);
-        if (distancia == numeric_limits<int>::max()) {
+        auto [distancia, camino] = dijkstra(origen, destino); //Llama  funcion de dijkstra, distancia representa el costo total de la ruta mas corta
+        if (distancia == numeric_limits<int>::max()) { //Si la distancia es el valor mas alto significa que no hay conexion entre origen y el destino
             cout << "No hay ruta entre " << origen << " y " << destino << ".\n";
             return;
         }
 
         cout << "Costo: " << distancia << " | Camino: ";
-        for (const string& nodo : camino)
+        for (const string& nodo : camino) //Recorre el vector camino para imprimir los nombres de los routers por donde pasa la ruta
             cout << nodo << " ";
         cout << "\n";
 
@@ -140,27 +140,27 @@ public:
 
 private:
     void limpiarRed() {
-        for (auto& [_, router] : routers)
-            delete router;
-        routers.clear();
+        for (auto& [_, router] : routers) //recorre el mapa routers
+            delete router; //Libera memoria
+        routers.clear(); //Limpia el mapa
     }
 
-    pair<int, vector<string>> dijkstra(string origen, string destino) {
-        map<string, int> dist;
-        map<string, string> anterior;
+    pair<int, vector<string>> dijkstra(string origen, string destino) { //Funcion dijkstra
+        map<string, int> dist; //Guarda la distancia minima actual conocida desde origen
+        map<string, string> anterior; //Para reconstruir el camino, almacena cada nodo cual fue su nodo anterior en la ruta mas corta
 
         for (auto& [nombre, _] : routers)
-            dist[nombre] = numeric_limits<int>::max();
+            dist[nombre] = numeric_limits<int>::max(); //Se inicializa con un valor maximo infinito a todos los nodos menos al origen
 
-        dist[origen] = 0;
-        using P = pair<int, string>;
-        priority_queue<P, vector<P>, greater<>> cola;
-        cola.push({0, origen});
+        dist[origen] = 0; //Empieza desde cero
+        using P = pair<int, string>; //Define cola de prioridades de pares donde el nodo con menor distancia sale primero
+        priority_queue<P, vector<P>, greater<>> cola; //Para obtener el elemento con la menor distancia acumulada primero
+        cola.push({0, origen}); //Agrega el nodo inicial con costo cero
 
-        while (!cola.empty()) {
-            auto [d, u] = cola.top(); cola.pop();
+        while (!cola.empty()) { //Mientras la cola no este vacia sigue procesando nodos
+            auto [d, u] = cola.top(); cola.pop(); //La letra 'd' distancia minima y 'u' nodo actual
 
-            for (auto& [vecino, costo] : routers[u]->vecinos) {
+            for (auto& [vecino, costo] : routers[u]->vecinos) { //Revisar vecinos u
                 int nuevoDist = d + costo;
                 if (nuevoDist < dist[vecino]) {
                     dist[vecino] = nuevoDist;
@@ -170,10 +170,10 @@ private:
             }
         }
 
-        vector<string> camino;
+        vector<string> camino; //Reconstruir camino
         if (dist[destino] == numeric_limits<int>::max()) return {dist[destino], camino};
 
-        for (string v = destino; v != origen; v = anterior[v])
+        for (string v = destino; v != origen; v = anterior[v]) //reconstruye el camino desde el destido hacia el origen usando mapa anterior y insert pone los nodos al inicio del vector para que queden orden correcto
             camino.insert(camino.begin(), v);
         camino.insert(camino.begin(), origen);
 
