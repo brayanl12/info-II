@@ -10,5 +10,6 @@
         <file>imgPacman/pacman_left_1.png</file>
         <file>imgPacman/pacman_left_2.png</file>
         <file>imgPacman/punto.png</file>
+        <file>imgPacman/fantasma.png</file>
     </qresource>
 </RCC>

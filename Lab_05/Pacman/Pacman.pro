@@ -14,6 +14,7 @@ SOURCES += \
     main.cpp \
     pacman.cpp \
     punto.cpp \
+    puntospoder.cpp \
     widget.cpp
 
 HEADERS += \
@@ -21,6 +22,7 @@ HEADERS += \
     juego.h \
     pacman.h \
     punto.h \
+    puntospoder.h \
     widget.h
 
 FORMS += \
